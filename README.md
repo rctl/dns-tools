@@ -71,11 +71,11 @@ forward-zone:
 ```
 Run Unbound with the saved configuration (you know what to replace):
 ```
-docker run -it --name unbound -p 53:53/udp --net=dnsnet  -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound:latest
+docker run -d --name unbound -p 53:53/udp --net=dnsnet  -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound:latest
 ```
 Run TinyDNS with default config (will be authoritative for test.com):
 ```
-docker run -it --name tinydns rctl/tinydns:latest
+docker run -d --name tinydns rctl/tinydns:latest
 ```
 Connect TinyDNS to the network and assign a known IP address
 ```
@@ -108,6 +108,11 @@ test.com.		259199	IN	NS	ns1.test.com.
 ;; SERVER: 127.0.0.1#53(127.0.0.1)
 ;; WHEN: XXXXXXXXXXXXX
 ;; MSG SIZE  rcvd: 71
+```
+To see what is happening in your servers:
+```
+docker logs unbound
+docker logs tinydns
 ```
 Cleanup:
 ```
