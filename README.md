@@ -33,7 +33,7 @@ docker run -d -p 53:53/udp rctl/tinydns:latest
 To test (should return authoritative answer 10.0.0.1):
 
 ```
-dig test.com @127.0.0.1
+dig test.lab @127.0.0.1
 ```
 
 To run TinyDNS with custom config:
@@ -66,14 +66,14 @@ server:
         directory: "/var/unbound"
         root-hints: "/var/unbound/named.cache"
 forward-zone:
-        name: "test.com."
+        name: "test.lab."
         forward-host: 10.88.0.5
 ```
 Run Unbound with the saved configuration (you know what to replace):
 ```
 docker run -d --name unbound -p 53:53/udp --net=dnsnet  -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound:latest
 ```
-Run TinyDNS with default config (will be authoritative for test.com):
+Run TinyDNS with default config (will be authoritative for test.lab):
 ```
 docker run -d --name tinydns rctl/tinydns:latest
 ```
@@ -83,11 +83,11 @@ docker network connect --ip 10.88.0.5 dnsnet tinydns
 ```
 Test everything:
 ```
-dig test.com @127.0.0.1
+dig test.lab @127.0.0.1
 
 Expect:
 
-; <<>> DiG 9.9.7-P3 <<>> test.com @127.0.0.1
+; <<>> DiG 9.9.7-P3 <<>> test.lab @127.0.0.1
 ;; global options: +cmd
 ;; Got answer:
 ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55232
@@ -96,13 +96,13 @@ Expect:
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
 ;; QUESTION SECTION:
-;test.com.			IN	A
+;test.lab.			IN	A
 
 ;; ANSWER SECTION:
-test.com.		86399	IN	A	10.0.0.1
+test.lab.		86399	IN	A	10.0.0.1
 
 ;; AUTHORITY SECTION:
-test.com.		259199	IN	NS	ns1.test.com.
+test.lab.		259199	IN	NS	ns1.test.lab.
 
 ;; Query time: 0 msec
 ;; SERVER: 127.0.0.1#53(127.0.0.1)
