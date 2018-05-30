@@ -7,13 +7,13 @@ This repository is for different DNS toolkits and servers I use for personal lab
 To run Unbound with default config (do not expose to internet):
 
 ```
-docker run -d -p 53:53/udp rctl/unbound:latest
+docker run -d -p 53:53/udp rctl/unbound
 ```
 
 To run Unbound with custom config:
 
 ```
-docker run -d -p 53:53/udp -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound:latest
+docker run -d -p 53:53/udp -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound
 ```
 
 To test:
@@ -27,7 +27,7 @@ dig google.com @127.0.0.1
 To run TinyDNS with default config (not very useful):
 
 ```
-docker run -d -p 53:53/udp rctl/tinydns:latest
+docker run -d -p 53:53/udp rctl/tinydns
 ```
 
 To test (should return authoritative answer 10.0.0.1):
@@ -39,7 +39,7 @@ dig test.lab @127.0.0.1
 To run TinyDNS with custom config:
 
 ```
-docker run -d -p 53:53/udp -v /path/to/tinydns.conf:/data  rctl/tinydns:latest
+docker run -d -p 53:53/udp -v /path/to/tinydns.conf:/data  rctl/tinydns
 ```
 
 ## Connect Unbound with TinyDNS
@@ -71,11 +71,11 @@ forward-zone:
 ```
 Run Unbound with the saved configuration (you know what to replace):
 ```
-docker run -d --name unbound -p 53:53/udp --net=dnsnet  -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound:latest
+docker run -d --name unbound -p 53:53/udp --net=dnsnet  -v /path/to/unbound.conf:/var/unbound/unbound.conf rctl/unbound
 ```
 Run TinyDNS with default config (will be authoritative for test.lab):
 ```
-docker run -d --name tinydns rctl/tinydns:latest
+docker run -d --name tinydns rctl/tinydns
 ```
 Connect TinyDNS to the network and assign a known IP address
 ```
