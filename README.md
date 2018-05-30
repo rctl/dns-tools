@@ -120,3 +120,30 @@ docker stop tinydns unbound
 docker rm tinydns unbound
 docker network rm dnsnet
 ```
+
+## Running Local DNS with Unbound
+
+Running a local DNS on your machine will decrease load times of DNS lookups, which may be handy if you run applications which do a lot of lookups. I use the following configuration to run a local DNS with unbound. If you want to do the same, run unbound with the **-p 127.0.0.1:53:53/udp** flag for setting up port. This flag will only allow traffic from your own machine (so that noone can use your machine for amplification attacks). Ideally, you can run your own DNS server on your local network instead of your own machine, but if you are always on the go like me then running it locally like this works fine as well. Here I have added priv.lab as an example of a localized domain that can be used for quick access (instead of using /etc/hosts file).
+
+Unbound config:
+
+```
+server:
+        verbosity: 4
+        interface: 0.0.0.0
+        port: 53
+        do-ip4: yes
+        do-ip6: yes
+        do-udp: yes
+        use-syslog: no
+        access-control: 0.0.0.0/0 allow
+        chroot: "/var/unbound"
+        username: "unbound"
+        directory: "/var/unbound"
+        local-zone: "lab." static
+        local-data: "priv.lab. IN A 10.16.0.1"
+forward-zone:
+    name: *
+    forward-addr: 1.1.1.1
+    forward-addr: 8.8.8.8
+```
