@@ -123,7 +123,7 @@ docker network rm dnsnet
 
 ## Running Local DNS with Unbound
 
-Running a local DNS on your machine will decrease load times of DNS lookups, which may be handy if you run applications which do a lot of lookups. I use the following configuration to run a local DNS with unbound. If you want to do the same, run unbound with the **-p 127.0.0.1:53:53/udp** flag for setting up port. This flag will only allow traffic from your own machine (so that noone can use your machine for amplification attacks). Ideally, you can run your own DNS server on your local network instead of your own machine, but if you are always on the go like me then running it locally like this works fine as well. Here I have added priv.lab as an example of a localized domain that can be used for quick access (instead of using /etc/hosts file).
+Running a local DNS may decrease load times of DNS lookups, which may be handy if you run clients which do a lot of lookups. I use the following configuration to run a local DNS with unbound. You can run your own DNS server on your local network but be careful, unless you know how to protect yourself from amplification attachs, do not expose this on the Internet. Here I have added priv.lab as an example of a localized domain that can be used for quick access.
 
 Unbound config:
 
